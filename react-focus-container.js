@@ -7,16 +7,15 @@ var React = require('react'),
 
 
 /**
- * This component standardizes focus in/out behaviour for widgets that have a
+ * This component standardizes focus in/out behaviour for components that have a
  * hide/fadeout/slideout/etc. behaviour that should be triggered when an element
- * outside of the widget becomes the activeElement.
+ * outside of the component becomes the activeElement.
  *
  * The component will add event listeners for focusin/focusout (jQuery-style
- * events) across the DOM. Whenever the activeElement transitions from
- * (to) an element within (outside) the widget to (from) an element
- * outside (within) the widget, the "onWidgetFocusOut" ("onWidgetFocusIn")
- * callback prop and the "_onWidgetFocusOut" ("_onWidgetFocusIn") method
- * will be invoked, if they exist.
+ * events) across the DOM. Whenever the activeElement transitions from (to) an
+ * an element within (outside) the component to (from) an element outside
+ * (within) the component, the "onFocusOut" ("onFocusIn") callback prop will be
+ * invoked.
  *
  * NOTE: When using the component, ensure that its child node's top-level
  * component is capable of acquiring focus (by default, only the "a", "input",
@@ -37,7 +36,7 @@ class FocusContainer extends React.Component {
         domNode = ReactDOM.findDOMNode(this);
 
         this.setState({
-            _widgetContainsFocus: containsFocus(domNode)
+            _componentContainsFocus: containsFocus(domNode)
         }, function() {
             $(document).on('focusin', focusInHandler).on('focusout',
                                                          focusOutHandler);
@@ -60,12 +59,12 @@ class FocusContainer extends React.Component {
     _onDocumentFocusIn = (jqEvent) => {
         var domNode = ReactDOM.findDOMNode(this);
 
-        if (!this.state._widgetContainsFocus && containsFocus(domNode)) {
+        if (!this.state._componentContainsFocus && containsFocus(domNode)) {
             DEBUG && console.log('Acquired focus.')
 
             var that = this;
             this.setState({
-                _widgetContainsFocus: true
+                _componentContainsFocus: true
             }, function() {
                 that.props.onFocusIn(jqEvent);
             });
@@ -81,11 +80,11 @@ class FocusContainer extends React.Component {
 
             domNode = ReactDOM.findDOMNode(that);
 
-            if (that.state._widgetContainsFocus && !containsFocus(domNode)) {
+            if (that.state._componentContainsFocus && !containsFocus(domNode)) {
                 DEBUG && console.log('Lost focus.');
 
                 that.setState({
-                    _widgetContainsFocus: false
+                    _componentContainsFocus: false
                 }, function() {
                     that.props.onFocusOut(jqEvent);
                 });
