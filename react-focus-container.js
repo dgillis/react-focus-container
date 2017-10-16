@@ -1,12 +1,9 @@
+/** @const */
+const DEBUG = (process.env.NODE_ENV !== 'production');
+
 var React = require('react'),
-    rUtils = require('react-utils'),
-    $ = require('jquery'),
-    _ = require('lodash'),
-    t = require('types'),
-    logging = require('logging');
-
-
-var logger = logging.getLogger('WidgetFocusMixin').setLevel('debug');
+    ReactDOM = require('react-dom'),
+    $ = require('jquery');
 
 
 /**
@@ -37,7 +34,7 @@ class FocusContainer extends React.Component {
             focusOutHandler = this._onDocumentFocusOut,
             domNode;
 
-        domNode = rUtils.findDOMNode(this);
+        domNode = ReactDOM.findDOMNode(this);
 
         this.setState({
             _widgetContainsFocus: containsFocus(domNode)
@@ -57,35 +54,35 @@ class FocusContainer extends React.Component {
     }
 
     render() {
-        t.shape(this.props, {onFocusIn: 'func',
-                             onFocusOut: 'func'});
         return this.props.children;
     }
 
     _onDocumentFocusIn = (jqEvent) => {
-        var domNode = rUtils.findDOMNode(this);
+        var domNode = ReactDOM.findDOMNode(this);
 
         if (!this.state._widgetContainsFocus && containsFocus(domNode)) {
-            logger.debug('Acquired focus.');
+            DEBUG && console.log('Acquired focus.')
 
+            var that = this;
             this.setState({
                 _widgetContainsFocus: true
-            }, _.bind(function() {
-                this.props.onFocusIn(jqEvent);
-            }, this));
+            }, function() {
+                that.props.onFocusIn(jqEvent);
+            });
         }
     };
 
     _onDocumentFocusOut = (jqEvent) => {
         // The handler is defered since document.activeElement does not get set
         // to the new element until the end of the current thread of execution.
-        _.defer(function(that) {
+        var that = this;
+        setTimeout(function() {
             var domNode;
 
-            domNode = rUtils.findDOMNode(that);
+            domNode = ReactDOM.findDOMNode(that);
 
             if (that.state._widgetContainsFocus && !containsFocus(domNode)) {
-                logger.debug('Lost focus.');
+                DEBUG && console.log('Lost focus.');
 
                 that.setState({
                     _widgetContainsFocus: false
@@ -93,7 +90,7 @@ class FocusContainer extends React.Component {
                     that.props.onFocusOut(jqEvent);
                 });
             }
-        }, this);
+        }, 0);
     };
 }
 
@@ -115,7 +112,7 @@ var containsElement = function(container, element) {
 var containsFocus = function(container) {
     var activeEl = document.activeElement;
     if (!activeEl) {
-        logger.warning(
+        DEBUG && console.warn(
             "document.activeElement is unexpectedly not an object:",
             activeEl);
     }
