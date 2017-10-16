@@ -1,46 +1,19 @@
 {
   "name": "react-focus-container",
-  "version": "0.0.0",
-  "description": "...",
-  "main": "dist/react-focus-container.js",
-  "author": "",
-  "license": "UNLICENSED",
+  "version": "0.0.1",
+  "description": "",
+  "author": "Duncan Gillis <d@duncangillis.com>",
+  "license": "MIT",
+  "main": "react-focus-container.js",
+  "files": [
+    "react-focus-container.js"
+  ],
+  "repository": "https://github.com/dgillis/react-focus-container",
   "scripts": {
-    "build": "babel src --out-dir=dist"
   },
   "dependencies": {
     "jquery": "*",
-    "lodash": ">=3.0.0 <4.0.0",
     "react": ">=15.0.0",
-    "create-react-class": ">=15.0.0",
-    "jquery": "*",
-    "combine-css-classes": "git+ssh://git@github.com/dgillis/combine-css-classes.git",
-    "types": "git+ssh://git@github.com/dgillis/js-types.git",
-    "pyformat": "git+ssh://git@github.com/dgillis/js-pyformat.git",
-    "react-utils": "git+ssh://git@github.com/dgillis/react-utils.git",
-    "react-bootstrap": "git+ssh://git@github.com/dgillis/react-bootstrap.git",
-    "logging": "git+ssh://git@github.com/dgillis/logging-js.git",
-    "invariant": "git+ssh://git@github.com/dgillis/invariant-js.git"
-  },
-  "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.24.0",
-    "babel-core": "^6.24.0",
-    "babel-preset-es2015": "^6.24.0",
-    "babel-preset-react": "^6.23.0",
-    "babel-preset-stage-2": "^6.24.1",
-    "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
-    "babel-plugin-transform-es3-property-literals": "^6.22.0"
-  },
-  "babel": {
-    "presets": [
-      "es2015",
-      "stage-2",
-      "react"
-    ],
-    "plugins": [
-      "transform-es3-member-expression-literals",
-      "transform-es3-property-literals"
-    ]
+    "react-dom": ">=15.0.0"
   }
 }
